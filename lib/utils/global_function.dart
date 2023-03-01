@@ -1,10 +1,12 @@
 import 'dart:developer' as dev;
+import 'dart:math';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:perpustakaan/src/model/user_model.dart';
-import 'package:perpustakaan/src/view/widget/custom_dialog.dart';
+import 'package:perpustakaan/models/user_model.dart';
 import 'package:perpustakaan/utils/global_vars.dart';
 import 'package:perpustakaan/utils/strings.dart';
+import 'package:perpustakaan/widgets/custom_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GlobalFunctions {

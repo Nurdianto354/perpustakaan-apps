@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:perpustakaan/utils/app_theme.dart';
+import 'package:perpustakaan/utils/core/app_theme.dart';
 
 class Loading {
   static circularLoading() {
