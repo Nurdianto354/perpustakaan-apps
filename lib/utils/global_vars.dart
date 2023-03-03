@@ -3,6 +3,7 @@ class GlobalVars {
   static final String baseUrl = "http://192.168.50.173:8000/";
   /* Development Local */
   static final String apiUrl = "${baseUrl}api/";
+  static final String apiUrlKategori = "${baseUrl}api/category/";
 
 /* ========================================================================== */
   static final int LIMIT_MAX_CONNECTION_TIMEOUT = 2 * 10000; //2 menit

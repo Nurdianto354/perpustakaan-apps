@@ -1,5 +1,5 @@
 import 'dart:developer' as dev;
-import 'dart:math';
+import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +24,10 @@ class GlobalFunctions {
 
     return userModel;
   }
+  
+  static log({required message, required name}) {
+    dev.log(message, name: name);
+  }
 
   static dynamic generateMapParam(List<String> key, List<dynamic> params) {
     Map<String, dynamic> param = new Map();
@@ -37,6 +41,50 @@ class GlobalFunctions {
     }
 
     return param;
+  }
+
+  static Future<dynamic> dioGetCall({params, required path, context, options}) async {
+    Dio dio;
+    Response _localResp;
+    var data;
+
+    DateTime _requestStart = DateTime.now();
+
+    dev.log(params is FormData ? params.fields.toString() : params.toString());
+    dev.log(path.toString());
+
+    try {
+      dio = new Dio();
+      dio.options.connectTimeout = GlobalVars.LIMIT_MAX_CONNECTION_TIMEOUT;
+      dio.options.sendTimeout = GlobalVars.LIMIT_MAX_CONNECTION_TIMEOUT;
+      dio.options.receiveTimeout = GlobalVars.LIMIT_MAX_CONNECTION_TIMEOUT;
+
+      _localResp = await dio.get(path, options: options, queryParameters: params);
+      data = _localResp.data;
+
+      DateTime _requestEnd = DateTime.now();
+
+      Duration _diff = _requestStart.difference(_requestEnd);
+
+      dev.log("job done. time : ${_diff.inSeconds.abs().toString()} seconds");
+    } on DioError catch (e) {
+      DateTime _requestEnd = DateTime.now();
+      Duration _diff = _requestStart.difference(_requestEnd);
+      if (e.type == DioErrorType.connectTimeout || e.type == DioErrorType.receiveTimeout || e.type == DioErrorType.sendTimeout) {
+        // throw Exception("Connection  Timeout Exception");
+        dev.log("timeout. time : ${_diff.inSeconds.abs().toString()} seconds");
+       return null;
+      }
+      print(e.response.toString());
+      GlobalFunctions.log(message: e.toString(), name: "dio_get_call");
+      CustomDialog.getDialog(
+          title: Strings.DIALOG_TITLE_ERROR, message: Strings.DIALOG_MESSAGE_API_CALL_FAILED, context: context, popCount: 1);
+    } catch (e) {
+      print(e);
+      CustomDialog.getDialog(
+          title: Strings.DIALOG_TITLE_ERROR, message: Strings.DIALOG_MESSAGE_API_CALL_FAILED, context: context, popCount: 1);
+    }
+    return data;
   }
 
   static Future<dynamic> dioPostCall({params, required path, context, options}) async {

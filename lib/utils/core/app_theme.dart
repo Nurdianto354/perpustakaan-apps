@@ -4,10 +4,22 @@ import 'package:perpustakaan/utils/core/app_style.dart';
 
 class AppTheme {
   const AppTheme._();
-
+  static var colorPrimary = Color(AppTheme.getColorFromHex('#543884'));
+  static var colorPrimaryLight = Color(AppTheme.getColorFromHex('#9A77CF'));
+  static var colorPrimaryDark = Color(AppTheme.getColorFromHex('#262254'));
   static var colorAccent = Color(AppTheme.getColorFromHex('#EC4176'));
+  static var colorAccentDark = Color(AppTheme.getColorFromHex('#A13670'));
+  static var colorYellow = Color(AppTheme.getColorFromHex('#FFA45E'));
+
+  static var lightGrey1 = Color(AppTheme.getColorFromHex('#FAFAFA'));
+  static var lightGrey2 = Color(AppTheme.getColorFromHex('#F7F7F7'));
+  static var lightGrey3 = Color(AppTheme.getColorFromHex('#F3F3F3'));
   static var white = Color(AppTheme.getColorFromHex("#FFFFFF"));
+
+  static var textLight = Color(AppTheme.getColorFromHex("#BACC5D3"));
+  static var textDarker = Color(AppTheme.getColorFromHex("#000000"));
   static var textDark = Color(AppTheme.getColorFromHex("#4C5264"));
+  static var transparent = Colors.transparent;
 
   static int getColorFromHex(String hexColor) {
     hexColor = hexColor.toUpperCase().replaceAll("#", "");

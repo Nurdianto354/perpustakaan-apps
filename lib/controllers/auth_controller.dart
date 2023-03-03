@@ -43,6 +43,53 @@ class AuthController {
     prefs.remove(GlobalVars.accessTokenKey);
   }
 
+  void register(context, loadingStateCallback, nama, email, password, passwordConfirm, reset) async {
+    loadingStateCallback();
+    FormData formData;
+
+    Map params = GlobalFunctions.generateMapParam(
+      ['name', 'email', 'password', 'password_confirmation'], [nama, email, password, passwordConfirm]
+    );
+
+    formData = FormData.fromMap(params as Map<String, dynamic>);
+
+    final data = await GlobalFunctions.dioPostCall(
+      context: context,
+      params: formData,
+      path: GlobalVars.apiUrl + "register"
+    );
+
+    log(data.toString());
+    if (data != null) {
+      if (data['status'] == 200) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
+          return const LoginPage();
+        }));
+
+        CustomDialog.getDialog(
+          title: Strings.DIALOG_TITLE_SUCCESS,
+          message: data['message'],
+          context: context,
+          popCount: 1
+        );
+      } else {
+        CustomDialog.getDialog(
+          title: Strings.DIALOG_TITLE_WARNING,
+          message: data['message'],
+          context: context,
+          popCount: 1
+        );
+      }
+    } else {
+      CustomDialog.getDialog(
+        title: Strings.DIALOG_TITLE_WARNING,
+        message: Strings.DIALOG_MESSAGE_API_CALL_FAILED,
+        context: context,
+        popCount: 1
+      );
+    }
+  }
+
   void login(context, loadingStateCallback, email, password, reset) async {
     if (userModel == null) {
       await _getPersistence();
@@ -58,8 +105,12 @@ class AuthController {
 
     formData = FormData.fromMap(params as Map<String, dynamic>);
 
-    final data = await GlobalFunctions.dioPostCall(context: context, params: formData, path: GlobalVars.apiUrl + "login");
-
+    final data = await GlobalFunctions.dioPostCall(
+      context: context,
+      params: formData,
+      path: GlobalVars.apiUrl + "login"
+    );
+    
     if (data != null) {
       if (data['status'] == 200) {
         userModel = new UserModel(
@@ -73,7 +124,7 @@ class AuthController {
         await savePersistence();
 
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-          return const AppsPage();
+          return AppsPage();
         }));
       }
     } else {
@@ -102,8 +153,6 @@ class AuthController {
       }),
       path: GlobalVars.apiUrl + "logout"
     );
-    
-    log(data.toString());
 
     if(data.toString() == "") {
       if (data['status'] == 200) {

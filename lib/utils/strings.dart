@@ -6,6 +6,7 @@ class Strings{
   static final String DIALOG_TITLE_NOTIFICATION = "Notifikasi";
 
   /*generals*/
+  static final String DIALOG_MESSAGE_API_TOKEN = "Session berakhir, mohon login kembali.";
   static final String DIALOG_MESSAGE_API_CALL_FAILED = "Terjadi kesalahan saat melakukan koneksi.";
   static final String DIALOG_MESSAGE_API_COPY_SUCCESS = "Sukses menyalin nomor transaksi.";
   static final String DIALOG_MESSAGE_FORBIDDEN = "Anda tidak diijinkan mengakses halaman ini.";

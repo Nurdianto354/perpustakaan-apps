@@ -6,7 +6,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:perpustakaan/controllers/auth_controller.dart';
 import 'package:perpustakaan/controllers/theme_controller.dart';
+import 'package:perpustakaan/models/user_model.dart';
 import 'package:perpustakaan/utils/core/app_color.dart';
+import 'package:perpustakaan/utils/global_function.dart';
 import 'package:perpustakaan/views/buku/buku_page.dart';
 import 'package:perpustakaan/views/dashboard/dashboard_page.dart';
 import 'package:perpustakaan/views/kategori/kategori_page.dart';
@@ -14,11 +16,11 @@ import 'package:perpustakaan/views/member/member_page.dart';
 import 'package:perpustakaan/views/notifikasi/notifikasi_page.dart';
 import 'package:perpustakaan/views/profil/header_drawer.dart';
 
-
 final ThemeController controller = Get.put(ThemeController());
 
 class AppsPage extends StatefulWidget {
-  const AppsPage({super.key});
+  String? page;
+  AppsPage({this.page});
 
   @override
   State<AppsPage> createState() => _AppsPageState();
@@ -26,7 +28,10 @@ class AppsPage extends StatefulWidget {
 
 class _AppsPageState extends State<AppsPage> {
   bool isLoading = false;
+  UserModel? userModel;
+  Map userLogin = new Map();
   late AuthController _authController;
+  var currentPage = DrawerSections.dashboard_page;
 
   @override
   void initState() {
@@ -34,6 +39,19 @@ class _AppsPageState extends State<AppsPage> {
     super.initState();
 
     _authController = new AuthController();
+    initData();
+
+    if (widget.page == "dashboard_page") {
+      currentPage = DrawerSections.dashboard_page;
+    } else if (widget.page == "notifikasi_page") {
+      currentPage = DrawerSections.notifikasi_page;
+    } else if (widget.page == "kategori_page") {
+      currentPage = DrawerSections.kategori_page;
+    } else if (widget.page == "buku_page") {
+      currentPage = DrawerSections.buku_page;
+    } else if (widget.page == "member_page") {
+      currentPage = DrawerSections.member_page;
+    }
   }
 
   void loadingStateCallback() {
@@ -42,28 +60,53 @@ class _AppsPageState extends State<AppsPage> {
     });
   }
 
+  initData() async {
+    userModel = await GlobalFunctions.getPersistence();
+    
+    loadingStateCallback();
+
+    setState(() {
+      userLogin['roles'] = userModel!.role;
+    });
+    
+    loadingStateCallback();
+  }
+
   void logout() async {
     await _authController.logout(context, loadingStateCallback);
   }
-
-  var currentPage = DrawerSections.dashboard_page;
 
   @override
   Widget build(BuildContext context) {
     PreferredSizeWidget _appBar(BuildContext context) {
       return AppBar(
-        // leading: IconButton(
-        //   onPressed: () {},
-        //   icon: Badge(
-        //     badgeStyle: const BadgeStyle(badgeColor: LightThemeColor.accent),
-        //     badgeContent: const Text(
-        //       "2",
-        //       style: TextStyle(color: Colors.white),
-        //     ),
-        //     position: BadgePosition.topStart(start: -3),
-        //     child: const Icon(Icons.notifications_none, size: 30),
-        //   ),
-        // ),
+        leading: IconButton(
+          onPressed: () {},
+          icon: Badge(
+            badgeStyle: const BadgeStyle(badgeColor: LightThemeColor.accent),
+            badgeContent: const Text(
+              "2",
+              style: TextStyle(color: Colors.white),
+            ),
+            position: BadgePosition.topStart(start: -3),
+            child: const Icon(Icons.notifications_none, size: 30),
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: const FaIcon(FontAwesomeIcons.signOut),
+            onPressed: () {
+              setState(() {
+                logout();
+              });
+            },
+          ),
+        ],
+      );
+    }
+
+    PreferredSizeWidget _appBarAdmin(BuildContext context) {
+      return AppBar(
         actions: [
           IconButton(
             icon: const FaIcon(FontAwesomeIcons.signOut),
@@ -92,7 +135,7 @@ class _AppsPageState extends State<AppsPage> {
     }
 
     return Scaffold(
-      appBar: _appBar(context),
+      appBar: !isLoading ? (userLogin['roles'] == 'admin' ? _appBarAdmin(context) : _appBar(context)) : _appBar(context),
       body: container,
       drawer: Drawer(
         child: SingleChildScrollView(

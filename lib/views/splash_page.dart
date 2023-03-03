@@ -38,7 +38,7 @@ class _SplashPageState extends State<SplashPage> {
     return Timer(duration, () async {
       if(accessToken != null) {
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-          return const AppsPage();
+          return AppsPage();
         }));
       } else {
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {

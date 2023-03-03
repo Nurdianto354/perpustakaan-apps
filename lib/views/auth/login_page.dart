@@ -2,7 +2,6 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:perpustakaan/controllers/auth_controller.dart';
-import 'package:perpustakaan/models/user_model.dart';
 import 'package:perpustakaan/utils/core/app_theme.dart';
 import 'package:perpustakaan/utils/loading.dart';
 import 'package:perpustakaan/utils/strings.dart';
@@ -20,7 +19,6 @@ class _LoginPageState extends State<LoginPage> {
   bool isLoading = false;
   bool isHidden = true;
 
-  UserModel? userModel;
   late AuthController _authController;
 
   TextEditingController emailController     = new TextEditingController();
@@ -73,11 +71,11 @@ class _LoginPageState extends State<LoginPage> {
           return SingleChildScrollView(
             child: ConstrainedBox(
               constraints: BoxConstraints(maxHeight: constraints.maxHeight),
-              child: isLoading ? Loading.circularLoading() : Column(
+              child: isLoading ? Loading.circularLoading() : ListView(
                 children: [
                   Container(
-                    height: 350,
                     width: double.infinity,
+                    margin: const EdgeInsets.only(bottom: 80),
                     decoration: const BoxDecoration(
                       color: Colors.tealAccent,
                       borderRadius: BorderRadius.only(
@@ -86,25 +84,28 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     child: Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
-                          child: Image.asset("assets/images/logo/logo.png"),
-                        ),
-                        const Text(
-                          "Login",
-                          style: TextStyle(
-                            fontSize: 35,
-                            color: Color.fromARGB(255, 86, 134, 123),
+                        Container(
+                          padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                          child: Column(
+                            children: [
+                              Image(
+                                image: AssetImage("assets/images/logo/logo.png"),
+                              ),
+                              Text(
+                                "Login",
+                                style: TextStyle(
+                                  fontSize: 35,
+                                  color: Color.fromARGB(255, 86, 134, 123),
+                                ),
+                              )
+                            ]
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 80,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(40, 5, 20, 10),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(30, 5, 30, 10),
                     child: Row(
                       children: [
                         Expanded(
@@ -134,8 +135,8 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(40, 5, 20, 10),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(30, 5, 30, 10),
                     child: Row(
                       children: [
                         Expanded(
@@ -170,12 +171,9 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
                   Container(
-                    height: 60,
-                    width: 300,
+                    margin: const EdgeInsets.fromLTRB(40, 30, 40, 10),
+                    padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
                     decoration: BoxDecoration(
                       color: Colors.tealAccent,
                       borderRadius: BorderRadius.circular(20),
@@ -185,12 +183,11 @@ class _LoginPageState extends State<LoginPage> {
                       child: const Text(
                         "Login",
                         style: TextStyle(fontSize: 20, color: Colors.grey),
-                      ),),
-                  ),
-                  const SizedBox(
-                    height: 10,
+                      ),
+                    ),
                   ),
                   RichText(
+                    textAlign: TextAlign.center,
                     text: TextSpan(
                       children: [
                         TextSpan(
