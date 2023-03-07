@@ -59,7 +59,6 @@ class AuthController {
       path: GlobalVars.apiUrl + "register"
     );
 
-    log(data.toString());
     if (data != null) {
       if (data['status'] == 200) {
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {

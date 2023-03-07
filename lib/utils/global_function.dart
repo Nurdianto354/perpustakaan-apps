@@ -84,6 +84,7 @@ class GlobalFunctions {
       CustomDialog.getDialog(
           title: Strings.DIALOG_TITLE_ERROR, message: Strings.DIALOG_MESSAGE_API_CALL_FAILED, context: context, popCount: 1);
     }
+
     return data;
   }
 
@@ -103,6 +104,96 @@ class GlobalFunctions {
       dio.options.receiveTimeout  = GlobalVars.LIMIT_MAX_CONNECTION_TIMEOUT;
 
       _localResp = await dio.post(path, data: params, options: options);
+      data = _localResp.data;
+
+      DateTime _requestEnd  = DateTime.now();
+      Duration _diff        = _requestStart.difference(_requestEnd);
+
+      dev.log("job done. time : ${_diff.inSeconds.abs().toString()} seconds");
+    } on DioError catch (e) {
+      DateTime _requestEnd  = DateTime.now();
+      Duration _diff        = _requestStart.difference(_requestEnd);
+
+      if (e.type == DioErrorType.connectTimeout || e.type == DioErrorType.receiveTimeout || e.type == DioErrorType.sendTimeout) {
+        // throw Exception("Connection  Timeout Exception");
+        dev.log("timeout. time : ${_diff.inSeconds.abs().toString()} seconds");
+        
+       return null;
+      }
+
+      debugPrint(e.response.toString());
+      CustomDialog.getDialog(
+        title: Strings.DIALOG_TITLE_ERROR,
+        message: Strings.DIALOG_MESSAGE_API_CALL_FAILED,
+        context: context,
+        popCount: 1
+      );
+    }
+
+    return data;
+  }
+
+  static Future<dynamic> dioPutCall({params, required path, context, options}) async {
+    Dio dio;
+    Response _localResp;
+    var data;
+    dev.log(params is FormData ? params.fields.toString() : params.toString());
+    dev.log(path.toString());
+
+    DateTime _requestStart = DateTime.now();
+
+    try {
+      dio = new Dio();
+      dio.options.connectTimeout  = GlobalVars.LIMIT_MAX_CONNECTION_TIMEOUT;
+      dio.options.sendTimeout     = GlobalVars.LIMIT_MAX_CONNECTION_TIMEOUT;
+      dio.options.receiveTimeout  = GlobalVars.LIMIT_MAX_CONNECTION_TIMEOUT;
+
+      _localResp = await dio.put(path, data: params, options: options);
+      data = _localResp.data;
+
+      DateTime _requestEnd  = DateTime.now();
+      Duration _diff        = _requestStart.difference(_requestEnd);
+
+      dev.log("job done. time : ${_diff.inSeconds.abs().toString()} seconds");
+    } on DioError catch (e) {
+      DateTime _requestEnd  = DateTime.now();
+      Duration _diff        = _requestStart.difference(_requestEnd);
+
+      if (e.type == DioErrorType.connectTimeout || e.type == DioErrorType.receiveTimeout || e.type == DioErrorType.sendTimeout) {
+        // throw Exception("Connection  Timeout Exception");
+        dev.log("timeout. time : ${_diff.inSeconds.abs().toString()} seconds");
+        
+       return null;
+      }
+
+      debugPrint(e.response.toString());
+      CustomDialog.getDialog(
+        title: Strings.DIALOG_TITLE_ERROR,
+        message: Strings.DIALOG_MESSAGE_API_CALL_FAILED,
+        context: context,
+        popCount: 1
+      );
+    }
+
+    return data;
+  }
+
+  static Future<dynamic> dioDeleteCall({params, required path, context, options}) async {
+    Dio dio;
+    Response _localResp;
+    var data;
+    dev.log(params is FormData ? params.fields.toString() : params.toString());
+    dev.log(path.toString());
+
+    DateTime _requestStart = DateTime.now();
+
+    try {
+      dio = new Dio();
+      dio.options.connectTimeout  = GlobalVars.LIMIT_MAX_CONNECTION_TIMEOUT;
+      dio.options.sendTimeout     = GlobalVars.LIMIT_MAX_CONNECTION_TIMEOUT;
+      dio.options.receiveTimeout  = GlobalVars.LIMIT_MAX_CONNECTION_TIMEOUT;
+
+      _localResp = await dio.delete(path, data: params, options: options);
       data = _localResp.data;
 
       DateTime _requestEnd  = DateTime.now();

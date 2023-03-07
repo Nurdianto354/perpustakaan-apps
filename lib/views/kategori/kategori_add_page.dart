@@ -1,28 +1,31 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:perpustakaan/controllers/kategori_controller.dart';
+import 'package:perpustakaan/models/kategori_model.dart';
+import 'package:perpustakaan/models/user_model.dart';
+import 'package:perpustakaan/utils/global_function.dart';
+import 'package:perpustakaan/utils/loading.dart';
 import 'package:perpustakaan/utils/strings.dart';
 import 'package:perpustakaan/widgets/custom_dialog.dart';
 
 class KategoriAddPage extends StatefulWidget {
-  const KategoriAddPage({super.key});
+  String? id;
+  KategoriAddPage({this.id});
 
   @override
   State<KategoriAddPage> createState() => _KategoriAddPageState();
 }
 
 class _KategoriAddPageState extends State<KategoriAddPage> {
+  UserModel? userModel;
+  KategoriModel? kategoriDetail;
+  
   late KategoriController kategoriController;
-  bool isLoading = true;
+  bool isLoading = false;
+  String? title;
   
   TextEditingController namaKategoriController = new TextEditingController();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    kategoriController = new KategoriController();
-  }
 
   void setLoadingState() {
     setState(() {
@@ -30,16 +33,63 @@ class _KategoriAddPageState extends State<KategoriAddPage> {
     });
   }
 
-  void kategoriAdd() async {
-    if(namaKategoriController.text != "") {
-      kategoriController.kategoriAdd(context, setLoadingState, namaKategoriController.text, reset);
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    title = widget.id == null ? "Tambah" : "Update";
+
+    kategoriController = new KategoriController();
+    
+    if(widget.id != null) {
+      initData();
+    }
+  }
+
+  initData() async {
+    userModel = await GlobalFunctions.getPersistence();
+
+    await _getKategoriDetail();
+  }
+
+  _getKategoriDetail() async {
+    await kategoriController.kategoriDetail(context, setLoadingState, setData, widget.id);
+  }
+
+  setData(data) {
+    if (data is KategoriModel && data != null) {
+      if (this.mounted) {
+        setState(() {
+          kategoriDetail = data;
+          namaKategoriController.value = new TextEditingController.fromValue(new TextEditingValue(text: kategoriDetail!.namaKategori)).value;
+        });
+      }
+    }
+  }
+
+  kategoriAdd() async {
+    if(widget.id == null) {
+      if(namaKategoriController.text != "") {
+        kategoriController.kategoriAdd(context, setLoadingState, namaKategoriController.text, reset);
+      } else {
+        CustomDialog.getDialog(
+          title: Strings.DIALOG_TITLE_WARNING,
+          message: Strings.DIALOG_MESSAGE_INSUFFICENT_INPUT,
+          context: context,
+          popCount: 1
+        );
+      }
     } else {
-      CustomDialog.getDialog(
-        title: Strings.DIALOG_TITLE_WARNING,
-        message: Strings.DIALOG_MESSAGE_INSUFFICENT_INPUT,
-        context: context,
-        popCount: 1
-      );
+      if(namaKategoriController.text != "") {
+        kategoriController.kategoriUpdate(context, setLoadingState, widget.id, namaKategoriController.text, reset);
+      } else {
+        CustomDialog.getDialog(
+          title: Strings.DIALOG_TITLE_WARNING,
+          message: Strings.DIALOG_MESSAGE_INSUFFICENT_INPUT,
+          context: context,
+          popCount: 1
+        );
+      }
     }
   }
 
@@ -60,11 +110,12 @@ class _KategoriAddPageState extends State<KategoriAddPage> {
           ),
         ],
       ),
-      body: Column(
+      body: isLoading ? Loading.circularLoading() : Column(
         children: [
           Container(
             width: double.infinity,
             margin: const EdgeInsets.only(bottom: 20),
+            padding: EdgeInsets.only(top: 20, bottom: 10),
             decoration: const BoxDecoration(
               color: Colors.tealAccent,
               borderRadius: BorderRadius.only(
@@ -79,7 +130,7 @@ class _KategoriAddPageState extends State<KategoriAddPage> {
                   child: Column(
                     children: [
                       Text(
-                        "Tambah Kategori Buku",
+                        title.toString() + " Kategori Buku",
                         style: Theme.of(context).textTheme.displayMedium,
                       )
                     ]
@@ -89,7 +140,8 @@ class _KategoriAddPageState extends State<KategoriAddPage> {
             ),
           ),
           Container(
-            padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
+            margin: EdgeInsets.fromLTRB(20, 5, 20, 50),
+            padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
             child: Row(
               children: [
                 Expanded(
@@ -129,7 +181,10 @@ class _KategoriAddPageState extends State<KategoriAddPage> {
         backgroundColor: Colors.tealAccent,
         onPressed: kategoriAdd,
         icon: const Icon(Icons.edit, color: Colors.black,),
-        label: const Text("Simpan", style: TextStyle(color: Colors.black),),
+        label: Text(
+          title.toString(),
+          style: TextStyle(color: Colors.black)
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
