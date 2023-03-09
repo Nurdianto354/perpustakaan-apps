@@ -55,7 +55,7 @@ class _BukuPageState extends State<BukuPage> {
   }
 
   getListBuku() async {
-    await bukuController.getBukuList(context, setLoadingState, setData, page,
+    await bukuController.getBukuList(context, setLoadingState, setData, page, null,
         buku: searchController.text);
   }
 

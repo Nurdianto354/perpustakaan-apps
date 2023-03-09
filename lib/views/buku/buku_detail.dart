@@ -38,7 +38,6 @@ class _BukuDetailPageState extends State<BukuDetailPage> {
     bukuController = new BukuController();
 
     initData();
-    // log(bukuDetail.toString());
   }
 
   initData() async {
@@ -71,7 +70,7 @@ class _BukuDetailPageState extends State<BukuDetailPage> {
           ),
         ],
       ),
-      body: isLoading ? Loading.circularLoading() :Column(
+      body: isLoading ? Loading.circularLoading() : Column(
         children: [
           Container(
             width: double.infinity,
@@ -125,154 +124,157 @@ class _BukuDetailPageState extends State<BukuDetailPage> {
                 ),
                 Card(
                   margin: EdgeInsets.fromLTRB(35, 30, 35, 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                "Kategori",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
+                  child: Container(
+                    padding: EdgeInsets.only(top: 20, bottom: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  "Kategori",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                bukuDetail!.namaKategori!,
-                                style: TextStyle(
-                                  fontSize: 15,
+                              Expanded(
+                                child: Text(
+                                  ": " + bukuDetail!.namaKategori!,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        )
-                      ),
-                      Container(
-                        padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                "Penerbit",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                bukuDetail!.penerbit!,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ),
-                          ],
+                            ],
+                          )
                         ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                "Pengarang",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
+                        Container(
+                          padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  "Penerbit",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                bukuDetail!.pengarang!,
-                                style: TextStyle(
-                                  fontSize: 15,
+                              Expanded(
+                                child: Text(
+                                  ": " + bukuDetail!.penerbit!,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                "Tahun",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
+                        Container(
+                          padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  "Pengarang",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                bukuDetail!.tahun!,
-                                style: TextStyle(
-                                  fontSize: 15,
+                              Expanded(
+                                child: Text(
+                                  ": " + bukuDetail!.pengarang!,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                "Slug",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
+                        Container(
+                          padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  "Tahun",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                bukuDetail!.slug!,
-                                style: TextStyle(
-                                  fontSize: 15,
+                              Expanded(
+                                child: Text(
+                                  ": " + bukuDetail!.tahun!,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                "Stok",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
+                        Container(
+                          padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  "Slug",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                bukuDetail!.stok!.toString(),
-                                style: TextStyle(
-                                  fontSize: 15,
+                              Expanded(
+                                child: Text(
+                                  ": " + bukuDetail!.slug!,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                        Container(
+                          padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  "Stok",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  ": " + bukuDetail!.stok!.toString(),
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -287,7 +289,7 @@ class _BukuDetailPageState extends State<BukuDetailPage> {
                 Container(
                   padding: const EdgeInsets.fromLTRB(45, 5, 45, 5),
                   decoration: BoxDecoration(
-                    color: Colors.blueAccent,
+                    color: Colors.greenAccent,
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
@@ -308,7 +310,7 @@ class _BukuDetailPageState extends State<BukuDetailPage> {
                     },
                     child: Text(
                       "Edit",
-                      style: TextStyle(fontSize: 20, color: Colors.tealAccent),
+                      style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
                   ),
                 ),
@@ -318,7 +320,7 @@ class _BukuDetailPageState extends State<BukuDetailPage> {
                 Container(
                   padding: const EdgeInsets.fromLTRB(45, 5, 45, 5),
                   decoration: BoxDecoration(
-                    color: Colors.redAccent,
+                    color: Colors.tealAccent,
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
@@ -335,7 +337,7 @@ class _BukuDetailPageState extends State<BukuDetailPage> {
                     },
                     child: Text(
                       "Hapus",
-                      style: TextStyle(fontSize: 20, color: Colors.tealAccent),
+                      style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
                   ),
                 ),

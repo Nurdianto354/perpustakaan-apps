@@ -3,8 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:perpustakaan/utils/core/app_theme.dart';
 
 class ThemeController extends GetxController {
+  RxInt currentBottomNavItemIndex = 0.obs;
   Rx<ThemeData> theme = AppTheme.lightTheme.obs;
   bool isLightTheme = true;
+
+  void switchBetweenBottomNavigationItems(int currentIndex) {
+    currentBottomNavItemIndex.value = currentIndex;
+  }
 
   void changeTheme() {
     if (theme.value == AppTheme.darkTheme) {

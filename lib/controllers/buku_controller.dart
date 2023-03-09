@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:perpustakaan/models/buku_model.dart';
 import 'package:perpustakaan/models/user_model.dart';
@@ -34,16 +35,23 @@ class BukuController {
     userModel = await GlobalFunctions.getPersistence();
   }
 
-  getBukuList(context, loadingStateCallback, setDataCallback, page,
-      {buku}) async {
+  getBukuList(context, loadingStateCallback, setDataCallback, page, categoryId, {buku}) async {
+    log(categoryId.toString());
     if (userModel == null) {
       await _getPersistence();
     }
 
     loadingStateCallback();
 
-    var params =
-        GlobalFunctions.generateMapParam(['page', 'judul'], [page, buku]);
+    var params;
+
+    if(page != null) {
+      params = GlobalFunctions.generateMapParam(['page', 'judul'], [page, buku]);
+    } else if(categoryId != null && categoryId != 0) {
+      params = GlobalFunctions.generateMapParam(['judul', 'category_id'], [buku, categoryId]);
+    } else {
+      params = GlobalFunctions.generateMapParam(['judul'], [buku]);
+    }
 
     final data = await GlobalFunctions.dioGetCall(
         context: context,
@@ -52,9 +60,17 @@ class BukuController {
             headers: {"Authorization": "Bearer " + userModel!.accessToken}),
         path: GlobalVars.apiUrlBook + "all");
 
+    log(data.toString());
     if (data != null) {
       if (data['status'] == 200) {
-        List results = data['data']['data'];
+        List results;
+
+        if(page != null) {
+          results = data['data']['data'];
+        } else {
+          results = data['data'];
+        }
+
         List<BukuModel> _listBuku = <BukuModel>[];
         results.forEach((element) {
           _listBuku.add(BukuModel(
@@ -72,7 +88,9 @@ class BukuController {
               updatedAt: element['updated_at']));
         });
 
-        if (_listBuku.isNotEmpty) {
+        if(categoryId != null && categoryId != 0) {
+          setDataCallback(_listBuku);
+        } else if (_listBuku.isNotEmpty) {
           setDataCallback(_listBuku);
         }
       } else {

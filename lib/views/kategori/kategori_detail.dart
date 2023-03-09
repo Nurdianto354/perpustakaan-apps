@@ -134,7 +134,7 @@ class _KategoriDetailPageState extends State<KategoriDetailPage> {
                 Container(
                   padding: const EdgeInsets.fromLTRB(45, 5, 45, 5),
                   decoration: BoxDecoration(
-                    color: Colors.blueAccent,
+                    color: Colors.greenAccent,
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
@@ -155,7 +155,7 @@ class _KategoriDetailPageState extends State<KategoriDetailPage> {
                     },
                     child: Text(
                       "Edit",
-                      style: TextStyle(fontSize: 20, color: Colors.tealAccent),
+                      style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
                   ),
                 ),
@@ -165,7 +165,7 @@ class _KategoriDetailPageState extends State<KategoriDetailPage> {
                 Container(
                   padding: const EdgeInsets.fromLTRB(45, 5, 45, 5),
                   decoration: BoxDecoration(
-                    color: Colors.redAccent,
+                    color: Colors.tealAccent,
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
@@ -182,7 +182,7 @@ class _KategoriDetailPageState extends State<KategoriDetailPage> {
                     },
                     child: Text(
                       "Hapus",
-                      style: TextStyle(fontSize: 20, color: Colors.tealAccent),
+                      style: TextStyle(fontSize: 20, color: Colors.white),
                     ),
                   ),
                 ),

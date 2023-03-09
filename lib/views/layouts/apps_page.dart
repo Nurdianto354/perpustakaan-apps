@@ -8,6 +8,7 @@ import 'package:perpustakaan/controllers/auth_controller.dart';
 import 'package:perpustakaan/controllers/theme_controller.dart';
 import 'package:perpustakaan/models/user_model.dart';
 import 'package:perpustakaan/utils/core/app_color.dart';
+import 'package:perpustakaan/utils/core/app_data.dart';
 import 'package:perpustakaan/utils/global_function.dart';
 import 'package:perpustakaan/views/buku/buku_page.dart';
 import 'package:perpustakaan/views/dashboard/dashboard_page.dart';
@@ -28,6 +29,7 @@ class AppsPage extends StatefulWidget {
 
 class _AppsPageState extends State<AppsPage> {
   bool isLoading = false;
+  bool isAdmin = false;
   UserModel? userModel;
   Map userLogin = new Map();
   late AuthController _authController;
@@ -37,9 +39,11 @@ class _AppsPageState extends State<AppsPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
     _authController = new AuthController();
+
     initData();
+    log(userLogin['roles'].toString());
+    userLogin['roles'] == 'admin' ? isAdmin = true : isAdmin = false;
 
     if (widget.page == "dashboard_page") {
       currentPage = DrawerSections.dashboard_page;
@@ -62,6 +66,7 @@ class _AppsPageState extends State<AppsPage> {
 
   initData() async {
     userModel = await GlobalFunctions.getPersistence();
+    userModel!.role.toString() == 'admin' ? isAdmin = true : isAdmin = false;
     
     loadingStateCallback();
 
@@ -78,6 +83,7 @@ class _AppsPageState extends State<AppsPage> {
 
   @override
   Widget build(BuildContext context) {
+    log(isAdmin.toString());
     PreferredSizeWidget _appBar(BuildContext context) {
       return AppBar(
         leading: IconButton(
@@ -135,7 +141,7 @@ class _AppsPageState extends State<AppsPage> {
     }
 
     return Scaffold(
-      appBar: !isLoading ? (userLogin['roles'] == 'admin' ? _appBarAdmin(context) : _appBar(context)) : _appBar(context),
+      appBar: isAdmin ? _appBarAdmin(context) : _appBar(context),
       body: container,
       drawer: Drawer(
         child: SingleChildScrollView(
@@ -149,6 +155,22 @@ class _AppsPageState extends State<AppsPage> {
           ),
         ),
       ),
+      bottomNavigationBar: isAdmin ? null : Obx(() {
+        return BottomNavigationBar(
+          currentIndex: controller.currentBottomNavItemIndex.value,
+          onTap: controller.switchBetweenBottomNavigationItems,
+          selectedFontSize: 0,
+          items: AppData.bottomNavigationItems.map(
+            (element) {
+              return BottomNavigationBarItem(
+                icon: element.disableIcon,
+                label: element.label,
+                activeIcon: element.enableIcon,
+              );
+            },
+          ).toList(),
+        );
+      }),
     );
   }
 
