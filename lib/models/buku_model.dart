@@ -4,6 +4,7 @@ class BukuModel {
   int? id, categoryId, stok;
   String? kodeBuku,
       judul,
+      namaKategori,
       slug,
       penerbit,
       pengarang,
@@ -16,6 +17,7 @@ class BukuModel {
     required this.id,
     required this.kodeBuku,
     required this.categoryId,
+    this.namaKategori,
     required this.judul,
     required this.slug,
     required this.penerbit,
@@ -23,8 +25,8 @@ class BukuModel {
     required this.tahun,
     required this.stok,
     required this.path,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory BukuModel.fromJson(Map<String, dynamic> json) => BukuModel(

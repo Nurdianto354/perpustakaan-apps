@@ -34,15 +34,21 @@ class KategoriController {
     userModel = await GlobalFunctions.getPersistence();
   }
 
-  kategoriListGet(context, loadingStateCallback, setDataCallback, page, {kategori}) async {
+  kategoriListGet(context, loadingStateCallback, setDataCallback, page,
+      {kategori}) async {
     if (userModel == null) {
       await _getPersistence();
     }
 
     loadingStateCallback();
+    var params = null;
 
-    var params = GlobalFunctions.generateMapParam(
-        ['page', 'nama_kategori'], [page, kategori]);
+    if (page != null) {
+      params = GlobalFunctions.generateMapParam(
+          ['page', 'nama_kategori'], [page, kategori]);
+    } else {
+      params = GlobalFunctions.generateMapParam(['nama_kategori'], [kategori]);
+    }
 
     final data = await GlobalFunctions.dioGetCall(
         context: context,
@@ -53,9 +59,15 @@ class KategoriController {
 
     if (data != null) {
       if (data['status'] == 200) {
-        List results = data['data']['data'];
+        List? results;
+        if (page != null) {
+          results = data['data']['data'];
+        } else {
+          results = data['data'];
+        }
+
         List<KategoriModel> _listKategori = <KategoriModel>[];
-        results.forEach((element) {
+        results!.forEach((element) {
           _listKategori.add(KategoriModel(
               id: element['id'],
               namaKategori: element['nama_kategori'],
@@ -86,7 +98,7 @@ class KategoriController {
           context: context,
           popCount: 1);
     }
-    
+
     loadingStateCallback();
   }
 
@@ -129,7 +141,8 @@ class KategoriController {
     loadingStateCallback();
   }
 
-  kategoriDetail(context, loadingStateCallback, setDataCallback, idKategori) async {
+  kategoriDetail(
+      context, loadingStateCallback, setDataCallback, idKategori) async {
     if (userModel == null) {
       await _getPersistence();
     }
@@ -144,8 +157,12 @@ class KategoriController {
 
     if (data != null) {
       if (data['status'] == 200) {
-        KategoriModel kategoriDetail = new KategoriModel(id: data['data']['id'], namaKategori: data['data']['nama_kategori'], createdAt: data['data']['created_at'], updatedAt: data['data']['updated_at']);
-        
+        KategoriModel kategoriDetail = new KategoriModel(
+            id: data['data']['id'],
+            namaKategori: data['data']['nama_kategori'],
+            createdAt: data['data']['created_at'],
+            updatedAt: data['data']['updated_at']);
+
         setDataCallback(kategoriDetail);
       } else {
         CustomDialog.getDialog(
@@ -171,11 +188,11 @@ class KategoriController {
     loadingStateCallback();
   }
 
-  kategoriUpdate(context, loadingStateCallback, idKategori, nama, reset) async{
+  kategoriUpdate(context, loadingStateCallback, idKategori, nama, reset) async {
     if (userModel == null) {
       await _getPersistence();
     }
-    
+
     loadingStateCallback();
 
     FormData formData;
@@ -184,15 +201,13 @@ class KategoriController {
 
     final data = await GlobalFunctions.dioPostCall(
         context: context,
-        options: Options(
-          headers: {
-            "Authorization": "Bearer " + userModel!.accessToken,
-            "Content-Type": "application/x-www-form-urlencoded"
-          }
-        ),
+        options: Options(headers: {
+          "Authorization": "Bearer " + userModel!.accessToken,
+          "Content-Type": "application/x-www-form-urlencoded"
+        }),
         params: formData,
         path: GlobalVars.apiUrlKategori + "update/" + idKategori);
-        log(data.toString());
+    log(data.toString());
 
     if (data['status'] == 200) {
       Navigator.push(context, MaterialPageRoute(builder: (context) {

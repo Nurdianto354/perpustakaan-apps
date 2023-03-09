@@ -3,6 +3,7 @@ class GlobalVars {
   static final String baseUrl = "http://192.168.50.173:8000/";
   // static final String baseUrl = "http://192.168.100.12:8000/";
   /* Development Local */
+  static final String urlAssetBook = "${baseUrl}storage/assets/image/book/";
   static final String apiUrl = "${baseUrl}api/";
   static final String apiUrlKategori = "${baseUrl}api/category/";
   static final String apiUrlBook = "${baseUrl}api/book/";

@@ -109,6 +109,8 @@ class AuthController {
       params: formData,
       path: GlobalVars.apiUrl + "login"
     );
+
+    log(data.toString());
     
     if (data != null) {
       if (data['status'] == 200) {
