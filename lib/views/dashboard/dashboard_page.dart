@@ -9,6 +9,7 @@ import 'package:perpustakaan/models/user_model.dart';
 import 'package:perpustakaan/utils/global_function.dart';
 import 'package:perpustakaan/utils/global_vars.dart';
 import 'package:perpustakaan/utils/loading.dart';
+import 'package:perpustakaan/views/dashboard/item_detail_page.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -29,6 +30,8 @@ class _DashboardPageState extends State<DashboardPage> {
   KategoriModel? kategoriSelect;
   Map userLogin = new Map();
   int? selectedKategori = 0;
+  
+  TextEditingController searchController = new TextEditingController();
 
   @override
   void initState() {
@@ -50,17 +53,17 @@ class _DashboardPageState extends State<DashboardPage> {
 
   initData() async {
     userModel = await GlobalFunctions.getPersistence();
-    _listBuku.clear();
 
     await getListBuku();
     await getListKategori();
   }
 
   getListBuku() async {
-    await bukuController.getBukuList(context, setLoadingState, setDataBuku, null, null);
+    await bukuController.getBukuList(context, setLoadingState, setDataBuku, null, null, buku: searchController.text);
   }
 
   setDataBuku(data) {
+    _listBuku.clear();
     if (data is List<BukuModel> && data.isNotEmpty) {
       if (this.mounted) {
         setState(() {
@@ -119,7 +122,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 "Apa yang ingin kamu baca \nhari ini",
                 style: Theme.of(context).textTheme.displayLarge,
               ),
-              _searchBar(),
+              _searchBar(selectedKategori),
               Text(
                 "Kategori",
                 style: Theme.of(context).textTheme.displaySmall,
@@ -159,7 +162,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       int? selectItemKategori = _listKategori[index].id;
                       return GestureDetector(
                         onTap: () async {
-                          await bukuController.getBukuList(context, setLoadingState, setDataBukuFilter, null, selectItemKategori);
+                          await bukuController.getBukuList(context, setLoadingState, setDataBukuFilter, null, selectItemKategori, buku: searchController.text);
                           selectedKategori = selectItemKategori;
                         },
                         child: Container(
@@ -232,7 +235,12 @@ class _DashboardPageState extends State<DashboardPage> {
                   itemCount: _listBuku.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                          return ItemDetailPage(id: _listBuku[index].id.toString());
+                        }));
+                      },
                       child: Container(
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
@@ -290,15 +298,22 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  Widget _searchBar() {
-    return const Padding(
+  Widget _searchBar(selectItemKategori) {
+    return Container(
+      height: 100,
+      width: double.infinity,
       padding: EdgeInsets.symmetric(vertical: 20),
       child: TextField(
+        controller: searchController,
+        textInputAction: TextInputAction.search,
         decoration: InputDecoration(
           hintText: 'Cari buku ...',
           prefixIcon: Icon(Icons.search, color: Colors.grey),
           contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 5),
         ),
+        onChanged: (val) async {
+          await bukuController.getBukuList(context, setLoadingState, setDataBukuFilter, null, selectItemKategori, buku: searchController.text);
+        },
       ),
     );
   }

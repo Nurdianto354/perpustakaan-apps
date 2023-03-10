@@ -36,7 +36,6 @@ class BukuController {
   }
 
   getBukuList(context, loadingStateCallback, setDataCallback, page, categoryId, {buku}) async {
-    log(categoryId.toString());
     if (userModel == null) {
       await _getPersistence();
     }
@@ -60,7 +59,6 @@ class BukuController {
             headers: {"Authorization": "Bearer " + userModel!.accessToken}),
         path: GlobalVars.apiUrlBook + "all");
 
-    log(data.toString());
     if (data != null) {
       if (data['status'] == 200) {
         List results;

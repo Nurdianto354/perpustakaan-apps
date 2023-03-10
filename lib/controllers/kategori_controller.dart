@@ -207,7 +207,6 @@ class KategoriController {
         }),
         params: formData,
         path: GlobalVars.apiUrlKategori + "update/" + idKategori);
-    log(data.toString());
 
     if (data['status'] == 200) {
       Navigator.push(context, MaterialPageRoute(builder: (context) {

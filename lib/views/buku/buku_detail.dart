@@ -101,9 +101,9 @@ class _BukuDetailPageState extends State<BukuDetailPage> {
             padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
             height: 200,
             child: Image(
-               image: NetworkImage(
-                  bukuDetail!.path != null ? GlobalVars.urlAssetBook + bukuDetail!.path! : GlobalVars.urlAssetBook + "CoverNotAvailable.jpg",
-                ),
+              image: NetworkImage(
+                bukuDetail!.path != null ? GlobalVars.urlAssetBook + bukuDetail!.path! : GlobalVars.urlAssetBook + "CoverNotAvailable.jpg",
+              ),
             ),
           ),
           Container(

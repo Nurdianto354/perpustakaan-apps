@@ -42,7 +42,7 @@ class _AppsPageState extends State<AppsPage> {
     _authController = new AuthController();
 
     initData();
-    log(userLogin['roles'].toString());
+
     userLogin['roles'] == 'admin' ? isAdmin = true : isAdmin = false;
 
     if (widget.page == "dashboard_page") {
@@ -83,7 +83,6 @@ class _AppsPageState extends State<AppsPage> {
 
   @override
   Widget build(BuildContext context) {
-    log(isAdmin.toString());
     PreferredSizeWidget _appBar(BuildContext context) {
       return AppBar(
         leading: IconButton(
