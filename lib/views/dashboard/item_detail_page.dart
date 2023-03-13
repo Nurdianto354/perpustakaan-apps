@@ -1,12 +1,17 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:perpustakaan/controllers/buku_controller.dart';
+import 'package:perpustakaan/controllers/peminjaman_controller.dart';
 import 'package:perpustakaan/models/buku_model.dart';
 import 'package:perpustakaan/models/user_model.dart';
 import 'package:perpustakaan/utils/core/app_extension.dart';
 import 'package:perpustakaan/utils/global_function.dart';
 import 'package:perpustakaan/utils/global_vars.dart';
 import 'package:perpustakaan/utils/loading.dart';
+import 'package:perpustakaan/utils/strings.dart';
+import 'package:perpustakaan/widgets/custom_dialog.dart';
 import 'package:perpustakaan/widgets/scale_animation.dart';
 
 class ItemDetailPage extends StatefulWidget {
@@ -22,6 +27,7 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
   
   UserModel? userModel;
   late BukuController bukuController;
+  late PeminjamanController peminjamanController;
   BukuModel? bukuDetail;
 
   TextEditingController datePeminjaman = TextEditingController(); 
@@ -38,6 +44,7 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
     // TODO: implement initState
     super.initState();
     bukuController = new BukuController();
+    peminjamanController = new PeminjamanController();
 
     initData();
     datePeminjaman.text = "";
@@ -62,6 +69,27 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
         });
       }
     }
+  }
+
+  addPeminjaman(params) async {
+    log("test");
+    if(datePeminjaman.text.isNotEmpty && datePeminjaman.text.isNotEmpty) {
+      log("test1");
+      peminjamanController.addPeminjaman(context, setLoadingState, params, userModel!.id.toString(), datePeminjaman.text, datePengembalian.text, 1, reset);
+    } else {
+      CustomDialog.getDialog(
+          title: Strings.DIALOG_TITLE_WARNING,
+          message: Strings.DIALOG_MESSAGE_INSUFFICENT_INPUT,
+          context: context,
+          popCount: 1);
+    }
+  }
+
+  reset() {
+    setState(() {
+      datePeminjaman.text = "";
+      datePengembalian.text = "";
+    });
   }
 
   PreferredSizeWidget _appBar(BuildContext context) {
@@ -93,7 +121,7 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
     
     if(pickedDate != null ){
       print(pickedDate);
-      String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+      String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate);
       print(formattedDate);
 
       setState(() {
@@ -413,8 +441,8 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                       Container(
                         padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                         child: ElevatedButton(
-                          onPressed: () {
-                            
+                          onPressed: () async {
+                            await addPeminjaman(bukuDetail!.id);
                           },
                           child: const Text("Pinjam Buku"),
                           style: ElevatedButton.styleFrom(
