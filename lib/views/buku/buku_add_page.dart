@@ -406,6 +406,7 @@ class _BukuAddPageState extends State<BukuAddPage> {
               });
             },
             items: kategori.map((KategoriModel element) {
+              log(element.toString());
               return DropdownMenuItem<int>(
                 child: Text(
                   element.namaKategori,

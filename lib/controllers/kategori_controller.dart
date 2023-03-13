@@ -56,7 +56,7 @@ class KategoriController {
         options: Options(
             headers: {"Authorization": "Bearer " + userModel!.accessToken}),
         path: GlobalVars.apiUrlKategori + "all");
-
+    log(data.toString());
     if (data != null) {
       if (data['status'] == 200) {
         List? results;

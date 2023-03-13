@@ -8,14 +8,15 @@ import 'package:perpustakaan/controllers/auth_controller.dart';
 import 'package:perpustakaan/controllers/theme_controller.dart';
 import 'package:perpustakaan/models/user_model.dart';
 import 'package:perpustakaan/utils/core/app_color.dart';
-import 'package:perpustakaan/utils/core/app_data.dart';
 import 'package:perpustakaan/utils/global_function.dart';
 import 'package:perpustakaan/views/buku/buku_page.dart';
 import 'package:perpustakaan/views/dashboard/dashboard_page.dart';
 import 'package:perpustakaan/views/kategori/kategori_page.dart';
 import 'package:perpustakaan/views/member/member_page.dart';
 import 'package:perpustakaan/views/notifikasi/notifikasi_page.dart';
+import 'package:perpustakaan/views/peminjaman/peminjaman_page.dart';
 import 'package:perpustakaan/views/profil/header_drawer.dart';
+import 'package:perpustakaan/views/profil/profil_page.dart';
 
 final ThemeController controller = Get.put(ThemeController());
 
@@ -34,6 +35,8 @@ class _AppsPageState extends State<AppsPage> {
   Map userLogin = new Map();
   late AuthController _authController;
   var currentPage = DrawerSections.dashboard_page;
+  int? _selectedIndex = 0;
+  var container;
 
   @override
   void initState() {
@@ -81,6 +84,20 @@ class _AppsPageState extends State<AppsPage> {
     await _authController.logout(context, loadingStateCallback);
   }
 
+  void _onItemTapped(int index) {
+    setState(() {
+      if(index == 0) {
+        currentPage = DrawerSections.dashboard_page;
+      } else if(index == 1) {
+        currentPage = DrawerSections.peminjaman_page;
+      } else if(index == 2) {
+        currentPage = DrawerSections.profil_page;
+      }
+
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     PreferredSizeWidget _appBar(BuildContext context) {
@@ -125,8 +142,6 @@ class _AppsPageState extends State<AppsPage> {
       );
     }
 
-    var container;
-
     if (currentPage == DrawerSections.dashboard_page) {
       container = const DashboardPage();
     } else if (currentPage == DrawerSections.notifikasi_page) {
@@ -137,6 +152,10 @@ class _AppsPageState extends State<AppsPage> {
       container = const BukuPage();
     } else if (currentPage == DrawerSections.member_page) {
       container = const MemberPage();
+    } else if (currentPage == DrawerSections.peminjaman_page) {
+      container = const PeminjamanPage();
+    } else if (currentPage == DrawerSections.profil_page) {
+      container = const ProfilPage();
     }
 
     return Scaffold(
@@ -154,22 +173,26 @@ class _AppsPageState extends State<AppsPage> {
           ),
         ),
       ),
-      bottomNavigationBar: isAdmin ? null : Obx(() {
-        return BottomNavigationBar(
-          currentIndex: controller.currentBottomNavItemIndex.value,
-          onTap: controller.switchBetweenBottomNavigationItems,
-          selectedFontSize: 0,
-          items: AppData.bottomNavigationItems.map(
-            (element) {
-              return BottomNavigationBarItem(
-                icon: element.disableIcon,
-                label: element.label,
-                activeIcon: element.enableIcon,
-              );
-            },
-          ).toList(),
-        );
-      }),
+      bottomNavigationBar: isAdmin ? null : BottomNavigationBar(
+        selectedItemColor: Colors.black54,
+        unselectedItemColor: Colors.tealAccent[700],
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.find_replace_sharp),
+            label: 'Peminjaman',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            label: 'Profil',
+          ),
+        ],
+        currentIndex: _selectedIndex!,
+        onTap: _onItemTapped,
+      ),
     );
   }
 
@@ -245,4 +268,6 @@ enum DrawerSections {
   kategori_page,
   buku_page,
   member_page,
+  peminjaman_page,
+  profil_page,
 }

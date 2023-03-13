@@ -20,6 +20,8 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   bool isLoading = false;
+  bool isLoadingFirst = true;
+
   UserModel? userModel;
   late BukuController bukuController;
   late KategoriController kategoriController;
@@ -28,7 +30,6 @@ class _DashboardPageState extends State<DashboardPage> {
   List<KategoriModel> kategori = <KategoriModel>[];
   List<KategoriModel> _listKategori = <KategoriModel>[];
   KategoriModel? kategoriSelect;
-  Map userLogin = new Map();
   int? selectedKategori = 0;
   
   TextEditingController searchController = new TextEditingController();
@@ -52,7 +53,7 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   initData() async {
-    userModel = await GlobalFunctions.getPersistence();
+    userModel =  await GlobalFunctions.getPersistence();
 
     await getListBuku();
     await getListKategori();
@@ -84,6 +85,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   getListKategori() async {
     await kategoriController.kategoriListGet(context, setLoadingState, setDataKategori, null);
+    isLoadingFirst = false;
   }
 
   setDataKategori(data) {
@@ -104,7 +106,7 @@ class _DashboardPageState extends State<DashboardPage> {
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(
-          child: Column(
+          child: isLoadingFirst ? Loading.circularLoading() : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
