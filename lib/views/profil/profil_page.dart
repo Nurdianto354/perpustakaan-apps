@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:perpustakaan/models/user_model.dart';
+import 'package:perpustakaan/utils/global_function.dart';
+import 'package:perpustakaan/utils/loading.dart';
 
 class ProfilPage extends StatefulWidget {
   const ProfilPage({super.key});
@@ -8,10 +11,27 @@ class ProfilPage extends StatefulWidget {
 }
 
 class _ProfilPageState extends State<ProfilPage> {
+  bool isLoadingFirst = true;
+  UserModel? userModel;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    initData();
+  }
+
+  initData() async {
+    userModel =  await GlobalFunctions.getPersistence();
+
+    isLoadingFirst = false;
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: isLoadingFirst ? Loading.circularLoading() : Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
@@ -24,6 +44,7 @@ class _ProfilPageState extends State<ProfilPage> {
               )
             ),
           ),
+          SizedBox(height: 10),
           Text(
             "Hello",
             style: Theme.of(context).textTheme.displayLarge,
@@ -32,8 +53,7 @@ class _ProfilPageState extends State<ProfilPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Nama User",
-                // "https://github.com/SinaSys",
+                userModel!.name.toString(),
                 style: Theme.of(context).textTheme.displaySmall,
               )
             ],

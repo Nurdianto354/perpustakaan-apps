@@ -168,7 +168,6 @@ class _DashboardPageState extends State<DashboardPage> {
                           selectedKategori = selectItemKategori;
                         },
                         child: Container(
-                          width: 100,
                           alignment: Alignment.center,
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
