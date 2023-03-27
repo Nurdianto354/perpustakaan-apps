@@ -1,12 +1,12 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:perpustakaan/controllers/auth_controller.dart';
-import 'package:perpustakaan/utils/core/app_theme.dart';
-import 'package:perpustakaan/utils/loading.dart';
-import 'package:perpustakaan/utils/strings.dart';
-import 'package:perpustakaan/views/auth/register_page.dart';
-import 'package:perpustakaan/widgets/custom_dialog.dart';
+import 'package:E_Library/controllers/auth_controller.dart';
+import 'package:E_Library/utils/core/app_theme.dart';
+import 'package:E_Library/utils/loading.dart';
+import 'package:E_Library/utils/strings.dart';
+import 'package:E_Library/views/auth/register_page.dart';
+import 'package:E_Library/widgets/custom_dialog.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

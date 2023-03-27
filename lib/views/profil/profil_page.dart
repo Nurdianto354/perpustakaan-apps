@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:perpustakaan/models/user_model.dart';
-import 'package:perpustakaan/utils/global_function.dart';
-import 'package:perpustakaan/utils/loading.dart';
+import 'package:E_Library/models/user_model.dart';
+import 'package:E_Library/utils/global_function.dart';
+import 'package:E_Library/utils/loading.dart';
 
 class ProfilPage extends StatefulWidget {
   const ProfilPage({super.key});

@@ -1,22 +1,23 @@
 import 'dart:developer';
 
+import 'package:E_Library/views/kategori/kategori_page.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart' hide Badge;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:perpustakaan/controllers/auth_controller.dart';
-import 'package:perpustakaan/controllers/theme_controller.dart';
-import 'package:perpustakaan/models/user_model.dart';
-import 'package:perpustakaan/utils/core/app_color.dart';
-import 'package:perpustakaan/utils/global_function.dart';
-import 'package:perpustakaan/views/buku/buku_page.dart';
-import 'package:perpustakaan/views/dashboard/dashboard_page.dart';
-import 'package:perpustakaan/views/kategori/kategori_page.dart';
-import 'package:perpustakaan/views/member/member_page.dart';
-import 'package:perpustakaan/views/notifikasi/notifikasi_page.dart';
-import 'package:perpustakaan/views/peminjaman/peminjaman_page.dart';
-import 'package:perpustakaan/views/profil/header_drawer.dart';
-import 'package:perpustakaan/views/profil/profil_page.dart';
+import 'package:E_Library/controllers/auth_controller.dart';
+import 'package:E_Library/controllers/theme_controller.dart';
+import 'package:E_Library/models/user_model.dart';
+import 'package:E_Library/utils/core/app_color.dart';
+import 'package:E_Library/utils/global_function.dart';
+import 'package:E_Library/views/buku/buku_page.dart';
+import 'package:E_Library/views/dashboard/dashboard_page.dart';
+import 'package:E_Library/views/kategori/kategori_bu_page.dart';
+import 'package:E_Library/views/member/member_page.dart';
+import 'package:E_Library/views/notifikasi/notifikasi_page.dart';
+import 'package:E_Library/views/peminjaman/peminjaman_page.dart';
+import 'package:E_Library/views/profil/header_drawer.dart';
+import 'package:E_Library/views/profil/profil_page.dart';
 
 final ThemeController controller = Get.put(ThemeController());
 

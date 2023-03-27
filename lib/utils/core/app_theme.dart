@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:perpustakaan/utils/core/app_color.dart';
-import 'package:perpustakaan/utils/core/app_style.dart';
+import 'package:E_Library/utils/core/app_color.dart';
+import 'package:E_Library/utils/core/app_style.dart';
 
 class AppTheme {
   const AppTheme._();

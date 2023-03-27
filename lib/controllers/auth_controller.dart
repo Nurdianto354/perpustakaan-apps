@@ -2,13 +2,13 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:perpustakaan/models/user_model.dart';
-import 'package:perpustakaan/utils/global_function.dart';
-import 'package:perpustakaan/utils/global_vars.dart';
-import 'package:perpustakaan/utils/strings.dart';
-import 'package:perpustakaan/views/auth/login_page.dart';
-import 'package:perpustakaan/views/layouts/apps_page.dart';
-import 'package:perpustakaan/widgets/custom_dialog.dart';
+import 'package:E_Library/models/user_model.dart';
+import 'package:E_Library/utils/global_function.dart';
+import 'package:E_Library/utils/global_vars.dart';
+import 'package:E_Library/utils/strings.dart';
+import 'package:E_Library/views/auth/login_page.dart';
+import 'package:E_Library/views/layouts/apps_page.dart';
+import 'package:E_Library/widgets/custom_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController {

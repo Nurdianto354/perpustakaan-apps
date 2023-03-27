@@ -13,6 +13,7 @@ class CustomDialog {
         return AlertDialog(
           content: Text(
             message!,
+            style: TextStyle(fontSize: 20),
           ),
           actions: <Widget>[
             TextButton(

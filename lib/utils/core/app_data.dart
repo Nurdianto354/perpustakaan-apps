@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:perpustakaan/models/bottom_navigation_item.dart';
+import 'package:E_Library/models/bottom_navigation_item.dart';
 
 class AppData {
   const AppData._();

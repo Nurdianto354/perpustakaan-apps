@@ -1,16 +1,16 @@
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
-import 'package:perpustakaan/controllers/buku_controller.dart';
-import 'package:perpustakaan/models/buku_model.dart';
-import 'package:perpustakaan/models/user_model.dart';
-import 'package:perpustakaan/utils/core/app_screen_size_helper.dart';
-import 'package:perpustakaan/utils/core/app_theme.dart';
-import 'package:perpustakaan/utils/global_function.dart';
-import 'package:perpustakaan/utils/global_vars.dart';
-import 'package:perpustakaan/utils/loading.dart';
-import 'package:perpustakaan/views/buku/buku_add_page.dart';
-import 'package:perpustakaan/views/buku/buku_detail.dart';
+import 'package:E_Library/controllers/buku_controller.dart';
+import 'package:E_Library/models/buku_model.dart';
+import 'package:E_Library/models/user_model.dart';
+import 'package:E_Library/utils/core/app_screen_size_helper.dart';
+import 'package:E_Library/utils/core/app_theme.dart';
+import 'package:E_Library/utils/global_function.dart';
+import 'package:E_Library/utils/global_vars.dart';
+import 'package:E_Library/utils/loading.dart';
+import 'package:E_Library/views/buku/buku_add_page.dart';
+import 'package:E_Library/views/buku/buku_detail.dart';
 
 class BukuPage extends StatefulWidget {
   const BukuPage({super.key});
@@ -288,7 +288,7 @@ class _BukuPageState extends State<BukuPage> {
         icon: const Icon(EvaIcons.plus, color: Colors.black),
         label: const Text(
           "Tambah",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.black, fontSize: 17.5),
         ),
       ),
     );

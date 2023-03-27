@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:perpustakaan/controllers/auth_controller.dart';
-import 'package:perpustakaan/utils/global_vars.dart';
-import 'package:perpustakaan/views/auth/login_page.dart';
-import 'package:perpustakaan/views/layouts/apps_page.dart';
+import 'package:E_Library/controllers/auth_controller.dart';
+import 'package:E_Library/utils/global_vars.dart';
+import 'package:E_Library/views/auth/login_page.dart';
+import 'package:E_Library/views/layouts/apps_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashPage extends StatefulWidget {

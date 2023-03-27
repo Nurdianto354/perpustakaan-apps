@@ -1,16 +1,17 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:perpustakaan/models/buku_model.dart';
-import 'package:perpustakaan/models/user_model.dart';
-import 'package:perpustakaan/utils/global_function.dart';
-import 'package:perpustakaan/utils/global_vars.dart';
-import 'package:perpustakaan/utils/strings.dart';
-import 'package:perpustakaan/views/auth/login_page.dart';
-import 'package:perpustakaan/views/layouts/apps_page.dart';
-import 'package:perpustakaan/widgets/custom_dialog.dart';
+import 'package:E_Library/models/buku_model.dart';
+import 'package:E_Library/models/user_model.dart';
+import 'package:E_Library/utils/global_function.dart';
+import 'package:E_Library/utils/global_vars.dart';
+import 'package:E_Library/utils/strings.dart';
+import 'package:E_Library/views/auth/login_page.dart';
+import 'package:E_Library/views/layouts/apps_page.dart';
+import 'package:E_Library/widgets/custom_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BukuController {
@@ -177,6 +178,7 @@ class BukuController {
   }
 
   detailBuku(context, loadingStateCallback, setDataCallback, idBuku) async {
+    log(idBuku);
     if (userModel == null) {
       await _getPersistence();
     }
@@ -189,6 +191,7 @@ class BukuController {
             headers: {"Authorization": "Bearer " + userModel!.accessToken}),
         path: GlobalVars.apiUrlBook + "detail/" + idBuku);
 
+    log(data.toString());
     if (data != null) {
       if (data['status'] == 200) {
         BukuModel detailBuku = new BukuModel(
@@ -206,6 +209,8 @@ class BukuController {
           createdAt: data['data']['created_at'],
           updatedAt: data['data']['updated_at']
         );
+
+        log(jsonEncode(detailBuku).toString());
 
         setDataCallback(detailBuku);
       } else {

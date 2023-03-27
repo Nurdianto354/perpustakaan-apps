@@ -1,13 +1,13 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:perpustakaan/controllers/kategori_controller.dart';
-import 'package:perpustakaan/models/kategori_model.dart';
-import 'package:perpustakaan/models/user_model.dart';
-import 'package:perpustakaan/utils/global_function.dart';
-import 'package:perpustakaan/utils/loading.dart';
-import 'package:perpustakaan/utils/strings.dart';
-import 'package:perpustakaan/widgets/custom_dialog.dart';
+import 'package:E_Library/controllers/kategori_controller.dart';
+import 'package:E_Library/models/kategori_model.dart';
+import 'package:E_Library/models/user_model.dart';
+import 'package:E_Library/utils/global_function.dart';
+import 'package:E_Library/utils/loading.dart';
+import 'package:E_Library/utils/strings.dart';
+import 'package:E_Library/widgets/custom_dialog.dart';
 
 class KategoriAddPage extends StatefulWidget {
   String? id;
@@ -183,7 +183,7 @@ class _KategoriAddPageState extends State<KategoriAddPage> {
         icon: const Icon(Icons.edit, color: Colors.black,),
         label: Text(
           title.toString(),
-          style: TextStyle(color: Colors.black)
+          style: TextStyle(color: Colors.black, fontSize: 17.5)
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

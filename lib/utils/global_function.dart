@@ -3,10 +3,10 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:perpustakaan/models/user_model.dart';
-import 'package:perpustakaan/utils/global_vars.dart';
-import 'package:perpustakaan/utils/strings.dart';
-import 'package:perpustakaan/widgets/custom_dialog.dart';
+import 'package:E_Library/models/user_model.dart';
+import 'package:E_Library/utils/global_vars.dart';
+import 'package:E_Library/utils/strings.dart';
+import 'package:E_Library/widgets/custom_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GlobalFunctions {
@@ -50,8 +50,8 @@ class GlobalFunctions {
 
     DateTime _requestStart = DateTime.now();
 
-    dev.log(params is FormData ? params.fields.toString() : params.toString());
-    dev.log(path.toString());
+    // dev.log(params is FormData ? params.fields.toString() : params.toString());
+    // dev.log(path.toString());
 
     try {
       dio = new Dio();
@@ -66,17 +66,17 @@ class GlobalFunctions {
 
       Duration _diff = _requestStart.difference(_requestEnd);
 
-      dev.log("job done. time : ${_diff.inSeconds.abs().toString()} seconds");
+      // dev.log("job done. time : ${_diff.inSeconds.abs().toString()} seconds");
     } on DioError catch (e) {
       DateTime _requestEnd = DateTime.now();
       Duration _diff = _requestStart.difference(_requestEnd);
       if (e.type == DioErrorType.connectTimeout || e.type == DioErrorType.receiveTimeout || e.type == DioErrorType.sendTimeout) {
         // throw Exception("Connection  Timeout Exception");
-        dev.log("timeout. time : ${_diff.inSeconds.abs().toString()} seconds");
+        // dev.log("timeout. time : ${_diff.inSeconds.abs().toString()} seconds");
        return null;
       }
       print(e.response.toString());
-      GlobalFunctions.log(message: e.toString(), name: "dio_get_call");
+      // GlobalFunctions.log(message: e.toString(), name: "dio_get_call");
       CustomDialog.getDialog(
           title: Strings.DIALOG_TITLE_ERROR, message: Strings.DIALOG_MESSAGE_API_CALL_FAILED, context: context, popCount: 1);
     } catch (e) {

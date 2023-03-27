@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:perpustakaan/controllers/buku_controller.dart';
-import 'package:perpustakaan/models/buku_model.dart';
-import 'package:perpustakaan/models/user_model.dart';
-import 'package:perpustakaan/utils/global_function.dart';
-import 'package:perpustakaan/utils/global_vars.dart';
-import 'package:perpustakaan/utils/loading.dart';
-import 'package:perpustakaan/views/buku/buku_add_page.dart';
+import 'package:E_Library/controllers/buku_controller.dart';
+import 'package:E_Library/models/buku_model.dart';
+import 'package:E_Library/models/user_model.dart';
+import 'package:E_Library/utils/global_function.dart';
+import 'package:E_Library/utils/global_vars.dart';
+import 'package:E_Library/utils/loading.dart';
+import 'package:E_Library/views/buku/buku_add_page.dart';
 
 class BukuDetailPage extends StatefulWidget {
   String? id;

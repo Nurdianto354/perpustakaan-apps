@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:perpustakaan/widgets/fade_animation.dart';
+import 'package:E_Library/widgets/fade_animation.dart';
 
 extension IterableWithIndex<T> on Iterable<T> {
   Iterable<E> mapWithIndex<E>(E Function(int index, T value) f) {

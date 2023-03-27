@@ -3,14 +3,14 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:perpustakaan/controllers/buku_controller.dart';
-import 'package:perpustakaan/controllers/kategori_controller.dart';
-import 'package:perpustakaan/models/buku_model.dart';
-import 'package:perpustakaan/models/kategori_model.dart';
-import 'package:perpustakaan/models/user_model.dart';
-import 'package:perpustakaan/utils/loading.dart';
-import 'package:perpustakaan/utils/strings.dart';
-import 'package:perpustakaan/widgets/custom_dialog.dart';
+import 'package:E_Library/controllers/buku_controller.dart';
+import 'package:E_Library/controllers/kategori_controller.dart';
+import 'package:E_Library/models/buku_model.dart';
+import 'package:E_Library/models/kategori_model.dart';
+import 'package:E_Library/models/user_model.dart';
+import 'package:E_Library/utils/loading.dart';
+import 'package:E_Library/utils/strings.dart';
+import 'package:E_Library/widgets/custom_dialog.dart';
 
 class BukuAddPage extends StatefulWidget {
   String? id;
@@ -163,7 +163,11 @@ class _BukuAddPageState extends State<BukuAddPage> {
           txtPengarang.value = new TextEditingController.fromValue(new TextEditingValue(text: bukuDetail!.pengarang!)).value;
           txtTahun.value = new TextEditingController.fromValue(new TextEditingValue(text: bukuDetail!.tahun!)).value;
           txtStok.value = new TextEditingController.fromValue(new TextEditingValue(text: bukuDetail!.stok!.toString())).value;
-          txtFilePicker.value = new TextEditingController.fromValue(new TextEditingValue(text: bukuDetail!.path!)).value;
+
+          if(bukuDetail!.path != null) {
+            txtFilePicker.value = new TextEditingController.fromValue(new TextEditingValue(text: bukuDetail!.path!.toString())).value;
+          }
+
           selectedKategori = bukuDetail!.categoryId!;
         });
       }
@@ -381,7 +385,7 @@ class _BukuAddPageState extends State<BukuAddPage> {
           Icons.edit,
           color: Colors.black,
         ),
-        label: Text(title.toString(), style: TextStyle(color: Colors.black)),
+        label: Text(title.toString(), style: TextStyle(color: Colors.black, fontSize: 17.5)),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

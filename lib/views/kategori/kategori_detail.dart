@@ -1,12 +1,12 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:perpustakaan/controllers/kategori_controller.dart';
-import 'package:perpustakaan/models/kategori_model.dart';
-import 'package:perpustakaan/models/user_model.dart';
-import 'package:perpustakaan/utils/global_function.dart';
-import 'package:perpustakaan/utils/loading.dart';
-import 'package:perpustakaan/views/kategori/kategori_add_page.dart';
+import 'package:E_Library/controllers/kategori_controller.dart';
+import 'package:E_Library/models/kategori_model.dart';
+import 'package:E_Library/models/user_model.dart';
+import 'package:E_Library/utils/global_function.dart';
+import 'package:E_Library/utils/loading.dart';
+import 'package:E_Library/views/kategori/kategori_add_page.dart';
 
 class KategoriDetailPage extends StatefulWidget {
   String? id;

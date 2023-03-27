@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
-import 'package:perpustakaan/controllers/member_controller.dart';
-import 'package:perpustakaan/models/member_model.dart';
-import 'package:perpustakaan/models/user_model.dart';
-import 'package:perpustakaan/utils/core/app_screen_size_helper.dart';
-import 'package:perpustakaan/utils/core/app_theme.dart';
-import 'package:perpustakaan/utils/global_function.dart';
-import 'package:perpustakaan/utils/loading.dart';
+import 'package:E_Library/controllers/member_controller.dart';
+import 'package:E_Library/models/member_model.dart';
+import 'package:E_Library/models/user_model.dart';
+import 'package:E_Library/utils/core/app_screen_size_helper.dart';
+import 'package:E_Library/utils/core/app_theme.dart';
+import 'package:E_Library/utils/global_function.dart';
+import 'package:E_Library/utils/loading.dart';
 
 class MemberPage extends StatefulWidget {
   const MemberPage({super.key});

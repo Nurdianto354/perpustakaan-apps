@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:perpustakaan/controllers/theme_controller.dart';
-import 'package:perpustakaan/views/splash_page.dart';
+import 'package:E_Library/controllers/theme_controller.dart';
+import 'package:E_Library/views/splash_page.dart';
 
 final ThemeController controller = Get.put(ThemeController());
 

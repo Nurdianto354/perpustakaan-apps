@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:perpustakaan/utils/core/app_theme.dart';
+import 'package:E_Library/utils/core/app_theme.dart';
 
 class ThemeController extends GetxController {
   RxInt currentBottomNavItemIndex = 0.obs;
