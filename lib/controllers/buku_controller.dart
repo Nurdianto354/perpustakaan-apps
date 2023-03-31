@@ -351,7 +351,9 @@ class BukuController {
         options: Options(
             headers: {"Authorization": "Bearer " + userModel!.accessToken}),
         params: formData,
-        path: GlobalVars.apiUrlBook + "create");
+        path: GlobalVars.apiUrlBook + "import/excel");
+        
+    log(data.toString());
 
     if (data['status'] == 200) {
       Navigator.push(context, MaterialPageRoute(builder: (context) {
