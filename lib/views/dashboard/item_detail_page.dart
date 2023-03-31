@@ -15,8 +15,9 @@ import 'package:E_Library/widgets/custom_dialog.dart';
 import 'package:E_Library/widgets/scale_animation.dart';
 
 class ItemDetailPage extends StatefulWidget {
-  String? id;
-  ItemDetailPage({super.key, this.id});
+  int? id, idBuku;
+  String? status;
+  ItemDetailPage({super.key, this.id, this.idBuku, this.status});
 
   @override
   State<ItemDetailPage> createState() => _ItemDetailPageState();
@@ -58,7 +59,7 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
   }
 
   getBukuDetail() async {
-    await bukuController.detailBuku(context, setLoadingState, setData, widget.id);
+    await bukuController.detailBuku(context, setLoadingState, setData, widget.idBuku.toString());
   }
 
   setData(data) {
@@ -71,11 +72,9 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
     }
   }
 
-  addPeminjaman(params) async {
-    log("test");
-    if(datePeminjaman.text.isNotEmpty && datePeminjaman.text.isNotEmpty) {
-      log("test1");
-      peminjamanController.addPeminjaman(context, setLoadingState, params, userModel!.id.toString(), datePeminjaman.text, datePengembalian.text, 1, reset);
+  addPeminjaman(idBuku) async {
+    if(datePeminjaman.text.isNotEmpty || datePengembalian.text.isNotEmpty) {
+      peminjamanController.addPeminjaman(context, setLoadingState, widget.id.toString(), idBuku.toString(), userModel!.id.toString(), datePeminjaman.text, datePengembalian.text, reset);
     } else {
       CustomDialog.getDialog(
           title: Strings.DIALOG_TITLE_WARNING,
@@ -95,7 +94,7 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
   PreferredSizeWidget _appBar(BuildContext context) {
     return AppBar(
       title: Text(
-        "Food Detail Screen",
+        "Buku Detail",
         style: TextStyle(
           color: Colors.black,
         ),
@@ -127,7 +126,7 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
       setState(() {
         params.text = formattedDate;
       });
-    }else{
+    } else {
       print("Date is not selected");
     }
   }
@@ -286,17 +285,17 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                         ),
                       ],
                     ).fadeAnimation(0.8),
-                    const SizedBox(height: 50),
-                    SizedBox(
+                    const SizedBox(height: 40),
+                    widget.status == 'peminjaman' && userModel!.role != 'admin' ? SizedBox(
                       width: double.infinity,
                       height: 45,
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: width * 0.1),
                         child: ElevatedButton(
                           onPressed: () {
-                            _showBottomModal(context);
+                            _modalPeminjaman(context);
                           },
-                          child: const Text("Pinjam Buku"),
+                          child: const Text("Peminjamann Buku"),
                           style: ElevatedButton.styleFrom(
                             primary: Colors.tealAccent[700],
                             textStyle: TextStyle(
@@ -306,7 +305,27 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                           ),
                         ),
                       ),
-                    )
+                    ).fadeAnimation(1) : Container(),
+                    widget.status == 'pengembalian' && userModel!.role != 'admin' ? SizedBox(
+                      width: double.infinity,
+                      height: 45,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: width * 0.1),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            _modalPengembalian(context);
+                          },
+                          child: const Text("Pengembalian Buku"),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.tealAccent[700],
+                            textStyle: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ),
+                      ),
+                    ).fadeAnimation(1) : Container(),
                   ],
                 ),
               ),
@@ -327,21 +346,21 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
     );
   }
   
-  _showBottomModal(context) {
+  _modalPeminjaman(context) {
     showModalBottomSheet(
       isDismissible: false,
       context: context,
       backgroundColor: Colors.transparent,
       builder: (builder) {
-        return new Container(
+        return Container(
           height: 330,
           color: Colors.transparent,
-          child: new Container(
-            decoration: new BoxDecoration(
+          child: Container(
+            decoration: const BoxDecoration(
               color: Colors.white,
-              borderRadius: new BorderRadius.only(
-                topLeft: const Radius.circular(10.0),
-                topRight: const Radius.circular(10.0),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10.0),
+                topRight: Radius.circular(10.0),
               ),
               boxShadow: [
                 BoxShadow(
@@ -371,7 +390,7 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.close,
                           color: Colors.black,
                         )
@@ -379,10 +398,127 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                     ),
                   ],
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Container(
-                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  decoration: BoxDecoration(
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                        color: Color(0xfff8f8f8),
+                        width: 1,
+                      ),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Text(
+                        "Judul Buku",
+                        style: Theme.of(context).textTheme.titleMedium ?.copyWith(color: Colors.tealAccent[600]),
+                      ).fadeAnimation(0.4),
+                      Text(
+                        bukuDetail!.judul!,
+                        style: Theme.of(context).textTheme.displayLarge ?.copyWith(color: Colors.black54),
+                      ).fadeAnimation(0.6),
+                      const SizedBox(height: 10,),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                        width: 200,
+                        child: TextField(
+                          controller: datePeminjaman,
+                          decoration: const InputDecoration(
+                            icon: Icon(Icons.calendar_today),
+                            labelText: "Tanggal Peminjaman",
+                          ),
+                          readOnly: true,
+                          onTap: () async {
+                            await getDatePicker(datePeminjaman);
+                          },
+                        )
+                      ).fadeAnimation(0.8),
+                      const SizedBox(height: 30),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            await addPeminjaman(bukuDetail!.id);
+                          },
+                          child: Text("Pinjam Buku"),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.tealAccent[700],
+                            textStyle: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ),
+                      ).fadeAnimation(1.0),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      }
+    );
+  }
+
+  _modalPengembalian(context) {
+    showModalBottomSheet(
+      isDismissible: false,
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (builder) {
+        return Container(
+          height: 330,
+          color: Colors.transparent,
+          child: Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10.0),
+                topRight: Radius.circular(10.0),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 10.0, // has the effect of softening the shadow
+                  spreadRadius: 0.0, // has the effect of extending the shadow
+                )
+              ],
+            ),
+            alignment: Alignment.topLeft,
+            child: Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      margin: const EdgeInsets.only(top: 5, left: 10),
+                      child: Text(
+                        "Pengembalian Buku",
+                        style: Theme.of(context).textTheme.displayLarge ?.copyWith(color: Colors.black),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 5, right: 5),
+                      padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Icon(
+                          Icons.close,
+                          color: Colors.black,
+                        )
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 5),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  decoration: const BoxDecoration(
                     border: Border(
                       top: BorderSide(
                         color: const Color(0xfff8f8f8),
@@ -400,55 +536,35 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                         bukuDetail!.judul!,
                         style: Theme.of(context).textTheme.displayLarge ?.copyWith(color: Colors.black54),
                       ).fadeAnimation(0.6),
-                      SizedBox(height: 10,),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                              child: TextField(
-                                controller: datePeminjaman,
-                                decoration: InputDecoration(
-                                  icon: Icon(Icons.calendar_today),
-                                  labelText: "Tanggal Peminjaman",
-                                ),
-                                readOnly: true,
-                                onTap: () async {
-                                  await getDatePicker(datePeminjaman);
-                                },
-                              )
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                              child: TextField(
-                                controller: datePengembalian,
-                                decoration: InputDecoration(
-                                  icon: Icon(Icons.calendar_today),
-                                  border: OutlineInputBorder(),
-                                  labelText: "Tanggal Pengembalian",
-                                ),
-                                readOnly: true,
-                                onTap: () async {
-                                  await getDatePicker(datePengembalian);
-                                },
-                              )
-                            ),
-                          ),
-                        ],
-                      ).fadeAnimation(0.8),
+                      const SizedBox(height: 25),
                       Container(
-                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                        padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                        width: 200,
+                        child: TextField(
+                          controller: datePengembalian,
+                          decoration: const InputDecoration(
+                            icon: Icon(Icons.calendar_today),
+                            border: OutlineInputBorder(),
+                            labelText: "Tanggal Pengembalian",
+                          ),
+                          readOnly: true,
+                          onTap: () async {
+                            await getDatePicker(datePengembalian);
+                          },
+                        ),
+                      ).fadeAnimation(0.8),
+                      const SizedBox(height: 30),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
                         child: ElevatedButton(
                           onPressed: () async {
                             await addPeminjaman(bukuDetail!.id);
                           },
-                          child: const Text("Pinjam Buku"),
+                          child: const Text("Kembalikan Buku"),
                           style: ElevatedButton.styleFrom(
                             primary: Colors.tealAccent[700],
                             textStyle: TextStyle(
-                              fontSize: 20,
+                              fontSize: 15,
                               fontWeight: FontWeight.bold
                             ),
                           ),

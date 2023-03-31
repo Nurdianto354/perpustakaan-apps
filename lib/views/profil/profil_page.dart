@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:E_Library/models/user_model.dart';
 import 'package:E_Library/utils/global_function.dart';
@@ -11,27 +13,32 @@ class ProfilPage extends StatefulWidget {
 }
 
 class _ProfilPageState extends State<ProfilPage> {
-  bool isLoadingFirst = true;
+  bool isLoading = true;
   UserModel? userModel;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    
     initData();
   }
 
   initData() async {
     userModel =  await GlobalFunctions.getPersistence();
+    setLoading();
+  }
 
-    isLoadingFirst = false;
+  setLoading() {
+    setState(() {
+      isLoading = false;
+    });
   }
   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: isLoadingFirst ? Loading.circularLoading() : Column(
+      body: isLoading ? Loading.circularLoading() : Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(

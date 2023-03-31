@@ -178,7 +178,6 @@ class BukuController {
   }
 
   detailBuku(context, loadingStateCallback, setDataCallback, idBuku) async {
-    log(idBuku);
     if (userModel == null) {
       await _getPersistence();
     }
@@ -191,7 +190,6 @@ class BukuController {
             headers: {"Authorization": "Bearer " + userModel!.accessToken}),
         path: GlobalVars.apiUrlBook + "detail/" + idBuku);
 
-    log(data.toString());
     if (data != null) {
       if (data['status'] == 200) {
         BukuModel detailBuku = new BukuModel(
@@ -209,8 +207,6 @@ class BukuController {
           createdAt: data['data']['created_at'],
           updatedAt: data['data']['updated_at']
         );
-
-        log(jsonEncode(detailBuku).toString());
 
         setDataCallback(detailBuku);
       } else {
@@ -333,4 +329,63 @@ class BukuController {
 
     loadingStateCallback();
   }
+
+  importData(context, loadingStateCallback, file, reset) async {
+    if (userModel == null) {
+      await _getPersistence();
+    }
+
+    loadingStateCallback();
+
+    Map params = GlobalFunctions.generateMapParam([
+      'file_import'
+    ], [
+      file == null ? null : await MultipartFile.fromFile(file.path)
+    ]);
+
+    FormData formData;
+    formData = FormData.fromMap(params as Map<String, dynamic>);
+
+    final data = await GlobalFunctions.dioPostCall(
+        context: context,
+        options: Options(
+            headers: {"Authorization": "Bearer " + userModel!.accessToken}),
+        params: formData,
+        path: GlobalVars.apiUrlBook + "create");
+
+    if (data['status'] == 200) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return AppsPage(page: "buku_page");
+      }));
+
+      CustomDialog.getDialog(
+          title: Strings.DIALOG_TITLE_SUCCESS,
+          message: data['message'] ?? "-",
+          context: context,
+          popCount: 1);
+    } else {
+      CustomDialog.getDialog(
+          title: Strings.DIALOG_TITLE_WARNING,
+          message: data['message'] ?? "-",
+          context: context,
+          popCount: 1);
+    }
+
+    loadingStateCallback();
+  }
+
+  // downloadPdf(context, loadingStateCallback) async {
+  //   if (userModel == null) {
+  //     await _getPersistence();
+  //   }
+
+  //   loadingStateCallback();
+
+  //    final data = await GlobalFunctions.dioDeleteCall(
+  //       context: context,
+  //       options: Options(
+  //           headers: {"Authorization": "Bearer " + userModel!.accessToken}),
+  //       path: GlobalVars.apiUrlBook + "delete/");
+
+  // }
 }

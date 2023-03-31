@@ -42,7 +42,7 @@ class _BukuDetailPageState extends State<BukuDetailPage> {
 
   initData() async {
     userModel = await GlobalFunctions.getPersistence();
-
+    
     await getBukuDetail();
   }
 

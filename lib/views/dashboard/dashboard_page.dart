@@ -239,7 +239,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       onTap: () {
                         Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                          return ItemDetailPage(id: _listBuku[index].id.toString());
+                          return ItemDetailPage(id: null, idBuku: _listBuku[index].id, status: "peminjaman",);
                         }));
                       },
                       child: Container(

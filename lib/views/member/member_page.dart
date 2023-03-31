@@ -29,7 +29,11 @@ class _MemberPageState extends State<MemberPage> {
 
   setLoadingState() {
     setState(() {
-      isLoading = !isLoading;
+      if (page == 1) {
+        isLoading = !isLoading;
+      } else {
+        isLoadMore = !isLoadMore;
+      }
     });
   }
 
@@ -146,7 +150,7 @@ class _MemberPageState extends State<MemberPage> {
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () {
-                            Navigator.pop(context, listMember[index]);
+                            // Navigator.pop(context, listMember[index]);
                           },
                           child: Container(
                             margin: const EdgeInsets.only(bottom: 10),
@@ -177,6 +181,7 @@ class _MemberPageState extends State<MemberPage> {
               )
             ),
           ),
+          isLoadMore ? Loading.circularLoading() : Container(),
         ],
       ),
     );

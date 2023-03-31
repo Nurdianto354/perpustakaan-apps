@@ -11,6 +11,7 @@ import 'package:E_Library/utils/global_vars.dart';
 import 'package:E_Library/utils/loading.dart';
 import 'package:E_Library/views/buku/buku_add_page.dart';
 import 'package:E_Library/views/buku/buku_detail.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BukuPage extends StatefulWidget {
   const BukuPage({super.key});
@@ -34,7 +35,11 @@ class _BukuPageState extends State<BukuPage> {
 
   setLoadingState() {
     setState(() {
-      isLoading = !isLoading;
+      if (page == 1) {
+        isLoading = !isLoading;
+      } else {
+        isLoadMore = !isLoadMore;
+      }
     });
   }
 
@@ -55,7 +60,8 @@ class _BukuPageState extends State<BukuPage> {
   }
 
   getListBuku() async {
-    await bukuController.getBukuList(context, setLoadingState, setData, page, null,
+    await bukuController.getBukuList(
+        context, setLoadingState, setData, page, null,
         buku: searchController.text);
   }
 
@@ -135,23 +141,40 @@ class _BukuPageState extends State<BukuPage> {
                     Container(
                       child: TextButton(
                         onPressed: () {},
-                        child: Text(
+                        child: const Text(
                           "Import",
                         ),
                       ),
                     ),
                     Container(
                       child: TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          "Export",
+                        onPressed: () async {
+                          String url = GlobalVars.apiUrlBook + "export/template";
+                          await launch(url);
+                        },
+                        child: const Text(
+                          "Template",
                         ),
                       ),
                     ),
                     Container(
                       child: TextButton(
-                        onPressed: () {},
-                        child: Text(
+                        onPressed: () async {
+                          String url = GlobalVars.apiUrlBook + "export/excel";
+                          await launch(url);
+                        },
+                        child: const Text(
+                          "Excel",
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child: TextButton(
+                        onPressed: () async {
+                          String url = GlobalVars.apiUrlBook + "export/pdf";
+                          await launch(url);
+                        },
+                        child: const Text(
                           "Pdf",
                         ),
                       ),
@@ -162,10 +185,10 @@ class _BukuPageState extends State<BukuPage> {
             ),
           ),
           Expanded(
-              child: Container(
-            padding: const EdgeInsets.all(15),
-            width: ScreenSizeHelper.getDisplayWidth(context),
-            child: RefreshIndicator(
+            child: Container(
+              padding: const EdgeInsets.all(15),
+              width: ScreenSizeHelper.getDisplayWidth(context),
+              child: RefreshIndicator(
               onRefresh: () async {
                 refreshData();
               },
@@ -190,9 +213,10 @@ class _BukuPageState extends State<BukuPage> {
                                 return InkWell(
                                   onTap: () {
                                     Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) {
-                                        return BukuDetailPage(id: _listBuku[index].id.toString());
-                                      }));
+                                        MaterialPageRoute(builder: (context) {
+                                      return BukuDetailPage(
+                                          id: _listBuku[index].id.toString());
+                                    }));
                                   },
                                   child: Card(
                                     child: ListTile(
@@ -223,7 +247,7 @@ class _BukuPageState extends State<BukuPage> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(
+                                                  const Text(
                                                     "Penerbit :",
                                                   ),
                                                   Text(
@@ -237,12 +261,12 @@ class _BukuPageState extends State<BukuPage> {
                                                   )
                                                 ],
                                               ),
-                                              SizedBox(width: 10),
+                                              const SizedBox(width: 10),
                                               Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(
+                                                  const Text(
                                                     "Tahun Terbit :",
                                                   ),
                                                   Text(
@@ -263,7 +287,7 @@ class _BukuPageState extends State<BukuPage> {
                                           ),
                                         ],
                                       ),
-                                      trailing: Icon(
+                                      trailing: const Icon(
                                         Icons.keyboard_arrow_right,
                                         color: Colors.black,
                                         size: 30.0,
@@ -274,7 +298,8 @@ class _BukuPageState extends State<BukuPage> {
                                 );
                               }))),
             ),
-          ))
+          )),
+          isLoadMore ? Loading.circularLoading() : Container(),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(

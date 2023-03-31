@@ -211,6 +211,7 @@ class _KategoriPageState extends State<KategoriPage> {
                             ),
                           ))),
           ),
+          isLoadMore ? Loading.circularLoading() : Container(),
         ],
       ),
       floatingActionButton: _getFAB(),

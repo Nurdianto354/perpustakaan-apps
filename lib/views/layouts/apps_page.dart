@@ -12,7 +12,6 @@ import 'package:E_Library/utils/core/app_color.dart';
 import 'package:E_Library/utils/global_function.dart';
 import 'package:E_Library/views/buku/buku_page.dart';
 import 'package:E_Library/views/dashboard/dashboard_page.dart';
-import 'package:E_Library/views/kategori/kategori_bu_page.dart';
 import 'package:E_Library/views/member/member_page.dart';
 import 'package:E_Library/views/notifikasi/notifikasi_page.dart';
 import 'package:E_Library/views/peminjaman/peminjaman_page.dart';
@@ -209,6 +208,7 @@ class _AppsPageState extends State<AppsPage> {
           menuItem(3, "Kategori", Icons.bookmark_border_outlined, currentPage == DrawerSections.kategori_page ? true : false),
           menuItem(4, "Buku", Icons.library_books, currentPage == DrawerSections.buku_page ? true : false),
           menuItem(5, "Member", Icons.people_alt_rounded, currentPage == DrawerSections.member_page ? true : false),
+          menuItem(6, "Peminjaman", Icons.people_alt_rounded, currentPage == DrawerSections.peminjaman_page ? true : false),
         ],
       ),
     );
@@ -231,6 +231,8 @@ class _AppsPageState extends State<AppsPage> {
               currentPage = DrawerSections.buku_page;
             } else if (id == 5) {
               currentPage = DrawerSections.member_page;
+            } else if (id == 6) {
+              currentPage = DrawerSections.peminjaman_page;
             }
           });
         },
